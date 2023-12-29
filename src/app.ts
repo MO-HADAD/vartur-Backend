@@ -4,6 +4,13 @@ import { productSchemas } from "../product/product.schema";
 import { categorySchemas } from "../category/category.schema";
 
 const fastify = require("fastify")({ logger: true });
+const cors = require("@fastify/cors");
+
+// Register the fastify-cors plugin
+fastify.register(cors, {
+  origin: true, // Set this to true to allow any origin or specify your origins
+  methods: ["GET", "POST", "PUT", "DELETE"], // Specify the HTTP methods you want to allow
+});
 
 fastify.register(require("../product/product.route"));
 fastify.register(require("../category/category.route"));

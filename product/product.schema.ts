@@ -21,6 +21,9 @@ const createProductSchema = z.object({
 const productResponseSchema = z.object({
   ...productInput,
   ...productGenerated,
+  category: z.object({
+    name: z.string(),
+  }),
 });
 
 const ProductsResponseSchema = z.array(productResponseSchema);

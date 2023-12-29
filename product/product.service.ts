@@ -25,7 +25,7 @@ export async function createProduct(data: CreateProductInput) {
     const file = await client.uploadFile(sharpedBuffer, {
       fileName: data.picture[0].filename,
     });
-    productPicture = file.cdnUrl + "-/preview/3200x3200/";
+    productPicture = file.cdnUrl;
   }
 
   return await prisma.product.create({
@@ -38,12 +38,19 @@ export async function createProduct(data: CreateProductInput) {
 }
 
 export async function getProducts() {
-  return await prisma.product.findMany();
+  return await prisma.product.findMany({
+    include: {
+      category: true,
+    },
+  });
 }
 
 export async function getProduct(productId: number) {
   return await prisma.product.findUnique({
     where: { id: productId },
+    include: {
+      category: true,
+    },
   });
 }
 
@@ -56,7 +63,7 @@ export async function updateProduct(
   if (data && data.picture && data.picture.length > 0) {
     const pictureBuffer = Buffer.from(data.picture[0].data, "base64");
     const sharpedBuffer = await sharp(pictureBuffer)
-      .resize(3200, 3200)
+      .resize(500, 500)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
       .toBuffer();
@@ -64,7 +71,7 @@ export async function updateProduct(
     const file = await client.uploadFile(sharpedBuffer, {
       fileName: data.picture[0].filename,
     });
-    productPicture = file.cdnUrl + "-/preview/3200x3200/";
+    productPicture = file.cdnUrl;
   }
 
   return await prisma.product.update({

@@ -15,7 +15,7 @@ export async function createCategory(data: CreateCategoryInput) {
   if (data && data.picture && data.picture.length > 0) {
     const pictureBuffer = Buffer.from(data.picture[0].data, "base64");
     const sharpedBuffer = await sharp(pictureBuffer)
-      .resize(3200, 3200)
+      .resize(500, 500)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
       .toBuffer();
@@ -23,7 +23,7 @@ export async function createCategory(data: CreateCategoryInput) {
     const file = await client.uploadFile(sharpedBuffer, {
       fileName: data.picture[0].filename,
     });
-    categoryPicture = file.cdnUrl + "-/preview/3200x3200/";
+    categoryPicture = file.cdnUrl;
   }
   console.log(data);
 
@@ -71,7 +71,7 @@ export async function updateCategory(
   if (data && data.picture && data.picture.length > 0) {
     const pictureBuffer = Buffer.from(data.picture[0].data, "base64");
     const sharpedBuffer = await sharp(pictureBuffer)
-      .resize(3200, 3200)
+      .resize(500, 500)
       .toFormat("jpeg")
       .jpeg({ quality: 90 })
       .toBuffer();
@@ -79,7 +79,7 @@ export async function updateCategory(
     const file = await client.uploadFile(sharpedBuffer, {
       fileName: data.picture[0].filename,
     });
-    categoryPicture = file.cdnUrl + "-/preview/3200x3200/";
+    categoryPicture = file.cdnUrl;
   }
 
   return await prisma.category.update({
