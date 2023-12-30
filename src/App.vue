@@ -1,23 +1,18 @@
 <template>
   <div>
     <MyNav />
-    <!-- <AddForm />
-    <productsCatalog /> -->
+
     <router-view />
   </div>
 </template>
 
 <script>
 import MyNav from "./components/MyNav";
-// import AddForm from "./components/AddForm";
-// import productsCatalog from "./components/productsCatalog.vue";
 
 export default {
   name: "App",
   components: {
     MyNav,
-    // AddForm,
-    // productsCatalog,
   },
 };
 </script>
